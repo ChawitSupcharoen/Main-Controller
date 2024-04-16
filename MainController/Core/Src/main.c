@@ -46,6 +46,11 @@ DMA_HandleTypeDef hdma_usart1_rx;
 DMA_HandleTypeDef hdma_usart2_rx;
 
 /* USER CODE BEGIN PV */
+// @User: Joystick receiving buffer
+uint8_t joystickPayload [10] = {0};
+
+// @User: Base system receiving buffer
+
 
 /* USER CODE END PV */
 
@@ -97,6 +102,10 @@ int main(void)
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
 
+  // @User: Setup UART 1 for communication with joy stick
+  HAL_UART_Receive_DMA(&huart1, joystickPayload, 10);
+
+  // @User: Setup UART 2 for communication with Base system
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -314,7 +323,12 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
+	if (huart == &huart1){
+		uint8_t payload[] = "GotData";
+		HAL_UART_Transmit(&huart2, payload, sizeof(payload), 20);
+	}
+}
 /* USER CODE END 4 */
 
 /**
