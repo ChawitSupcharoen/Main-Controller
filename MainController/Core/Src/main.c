@@ -106,6 +106,9 @@ int main(void)
   HAL_UART_Receive_DMA(&huart1, joystickPayload, 10);
 
   // @User: Setup UART 2 for communication with Base system
+
+
+  // @User: Setup Timer 1 for Motor drive
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -323,6 +326,9 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+
+// @User : Test for UART2 ablility to send data through usb cable
+// TODO: remove later
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 	if (huart == &huart1){
 		uint8_t payload[] = "GotData";
