@@ -1,0 +1,78 @@
+/*
+ * subroutine.c
+ *
+ *  Created on: May 4, 2024
+ *      Author: User
+ */
+
+
+// Include library
+#include "main.h"
+#include "string.h"
+
+/* 	Function: updateLED
+ *	Return type : integer
+ *		0 : Ok
+ *
+ *	Parameter:
+ *		ledVal: Led color to be display, 1 is red, 2 is green, 3 is blue (There are 3 LEDS)
+ *		htim: Timer's pointer that control data generation (Timer 3)
+ *		timCH: Timer channel that connect to LED (CH2)
+ *
+ *
+ *
+ *
+ *
+ */
+
+int updateLED(uint8_t* ledVal, TIM_HandleTypeDef* htim, uint32_t timCH){
+
+	const uint16_t ledOn[8] = {72,72,72,72,72,72,72,72};
+	const uint16_t ledOff[8] = {34,34,34,34,34,34,34,34};
+
+	// Reset LED
+	static uint16_t ledPayload[132];
+
+	for (int i = 0; i < 3; i++){
+		uint16_t ledBuff[24];
+		switch(ledVal[i]) {
+
+		case 1:
+			(void)memcpy(&ledBuff[0], ledOff, sizeof(ledOff));
+			(void)memcpy(&ledBuff[8], ledOn, sizeof(ledOn));
+			(void)memcpy(&ledBuff[16], ledOff, sizeof(ledOff));
+
+			break;
+
+		case 2:
+			(void)memcpy(&ledBuff[0], ledOn, sizeof(ledOn));
+			(void)memcpy(&ledBuff[8], ledOff, sizeof(ledOff));
+			(void)memcpy(&ledBuff[16], ledOff, sizeof(ledOff));
+
+			break;
+
+		case 3:
+			(void)memcpy(&ledBuff[0], ledOff, sizeof(ledOff));
+			(void)memcpy(&ledBuff[8], ledOff, sizeof(ledOff));
+			(void)memcpy(&ledBuff[16], ledOn, sizeof(ledOn));
+
+			break;
+
+		default:
+			(void)memcpy(&ledBuff[0], ledOff, sizeof(ledOff));
+			(void)memcpy(&ledBuff[8], ledOff, sizeof(ledOff));
+			(void)memcpy(&ledBuff[16], ledOff, sizeof(ledOff));
+
+			break;
+		}
+
+		(void)memcpy(&ledPayload[60+(i*24)], ledBuff, sizeof(ledBuff));
+
+	}
+
+	(void)memset(ledPayload, 0, sizeof(uint16_t)*60);
+
+	HAL_TIM_PWM_Start_DMA(htim, timCH, ledPayload, 132);
+
+	return 0;
+}

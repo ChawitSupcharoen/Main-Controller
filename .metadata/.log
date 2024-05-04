@@ -284,3 +284,18 @@ java.io.IOException: Error opening \\.\COM6 (121)
 	at org.eclipse.remote.serial.core.SerialPortConnection.getCommandShell(SerialPortConnection.java:97)
 	at org.eclipse.remote.internal.console.TerminalConsoleConnector$1.run(TerminalConsoleConnector.java:140)
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SESSION 2024-05-04 17:49:09.213 -----------------------------------------------
+eclipse.buildId=Version 1.13.2
+java.version=17.0.6
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2024-05-04 17:50:18.657
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2024-05-04 17:50:18.666
+!MESSAGE Log4j2 initialized with config file C:\Users\asus\Documents\FIBO\FIBO Year 2 Simester 2\Studio\Firmware\Main Controller\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2024-05-04 17:50:30.955
+!MESSAGE Started RMI Server, listening on port 41337
