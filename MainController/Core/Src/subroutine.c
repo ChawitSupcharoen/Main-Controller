@@ -187,3 +187,40 @@ int extendX(){
 
 
 
+
+
+/* 	Function: HomeZ
+ * 	Description: Slowly pulled Z down until hit end-stop or Timeout.
+ *	Return type : integer
+ *		0 : Ok
+ *		1 : Timeout
+ *		2 : Homing coordinate error
+ *
+ *	Parameter:
+ *
+ *	Constant:
+ *		TimeoutConst: (Unsigned 32-bit integer) blocking timeout if Z doesn't hit endstop, use to calculate later.
+ *		HomingSpeed: (Unsigned 16-bit integer) homing speed in z axis when is going to home
+ *		HomingMaxError: (Unsigned 16-bit integer) max variation in homing position in encoder pulse
+ *
+ *	Variable:
+ *		Timeout: (Unsigned 32-bit integer) blocking timeout if Z axis doesn't hit endstop.
+ *		HomePos:
+ *
+ *
+ */
+
+int HomeZ(){
+
+	const uint32_t TimeoutConst = 20000;
+
+	uint32_t Timeout = HAL_GetTick() + TimeoutConst;
+	uint32_t HomePos[3];
+
+	serviceMotor(20000, 0);
+	while(HAL_GetTick() < Timeout){
+		return 0;
+	}
+	return 1;
+
+}

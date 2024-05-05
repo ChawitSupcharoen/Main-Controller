@@ -136,7 +136,8 @@ int main(void)
 
   // TODO: Test retract x axis
 //  uint16_t result = retractX();
-  uint16_t result = extendX();
+//  uint16_t result = extendX();
+  serviceMotor(20000, 0);
 
   /* USER CODE END 2 */
 
@@ -572,13 +573,13 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pin : PA10 */
   GPIO_InitStruct.Pin = GPIO_PIN_10;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pin : PB5 */
   GPIO_InitStruct.Pin = GPIO_PIN_5;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
@@ -589,6 +590,9 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI9_5_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
+
   HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 
@@ -597,6 +601,56 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+
+/* 	@User : Move motor
+ *
+ * 	Function: serviceMotor
+ * 	Description: Low level API to control motor
+ *	Return type : void
+ *
+ *	Parameter:
+ *		pwm: (unsigned 32-bit integer) Motor pwm value
+ *		dir: (unsigned 8-bit integer) Motor direction
+ *
+ */
+
+void serviceMotor(uint32_t pwm, uint8_t dir){
+
+	if(dir){
+		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, pwm);
+		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 0);
+	}
+	else{
+		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 0);
+		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, pwm);
+	}
+}
+
+
+/* 	@User : Get encoder value
+ *
+ * 	Function: getEncoderValue
+ * 	Description: Low level API to get qei's counter
+ *	Return type : uint32_t
+ *
+ *	Parameter:
+ *		void
+ *
+ */
+
+
+uint32_t getEncoderValue(){
+	return __HAL_TIM_GET_COUNTER(&htim2);
+}
+
+// @User : If gripper hit endstop, Stop motor
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
+	if(GPIO_Pin == GPIO_PIN_5 || GPIO_Pin == GPIO_PIN_10){
+		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 0);
+		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 0);
+	}
+}
+
 
 // @User : Stop timer3 that send data to led
 void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)

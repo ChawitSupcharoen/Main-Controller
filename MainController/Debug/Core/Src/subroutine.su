@@ -1,3 +1,4 @@
 ../Core/Src/subroutine.c:35:5:updateLED	120	static
 ../Core/Src/subroutine.c:108:5:retractX	16	static
 ../Core/Src/subroutine.c:160:5:extendX	16	static
+../Core/Src/subroutine.c:213:5:HomeZ	32	static

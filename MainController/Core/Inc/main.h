@@ -55,7 +55,7 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
-
+void serviceMotor(uint32_t pwm, uint8_t dir);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
