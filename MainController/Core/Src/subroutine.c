@@ -23,6 +23,13 @@
  *		htim: Timer's pointer that control data generation (Timer 3)
  *		timCH: Timer channel that connect to LED (CH2)
  *
+ *	Variable:
+ *		ledPayload: (unsigned 16-bit integer array) Contain data for sending to led
+ *		ledBuff: (unsigned 16-bit integer array) Contain data for sending to led
+ *
+ *	Constant:
+ *		ledOn: (unsigned 16-bit integer array) Pulse that make respect completely LED on.
+ *		ledOff: (unsigned 16-bit integer array) Pulse that make respect completely LED off.
  */
 
 int updateLED(uint8_t* ledVal, TIM_HandleTypeDef* htim, uint32_t timCH){
@@ -78,14 +85,57 @@ int updateLED(uint8_t* ledVal, TIM_HandleTypeDef* htim, uint32_t timCH){
 
 
 /* 	Function: retractX
- *  Description: Retract x axis until it is fully retract
+ *  Description: Retract x axis until it is fully retract. This function is blocking
  *	Return type : integer
  *		0 : Ok
  *		1 : Timeout
  *
  *	Parameter:
- *		ledVal: Led color to be display, 1 is red, 2 is green, 3 is blue (There are 3 LEDS)
- *		htim: Timer's pointer that control data generation (Timer 3)
- *		timCH: Timer channel that connect to LED (CH2)
+ *		None
+ *
+ *	Constant:
+ *		TimeoutConst: (Unsigned 32-bit integer) blocking timeout if X axis doesn't retract, use to calculate later
+ *
+ *	Variable:
+ *		Timeout: (Unsigned 32-bit integer) blocking timeout if X axis doesn't retract
+ *
+ *
+ *
+ *
  *
  */
+
+int retractX(){
+
+	const uint32_t TimeoutConst = 1000;
+
+	uint32_t Timeout = HAL_GetTick() + TimeoutConst;
+
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_10, GPIO_PIN_SET);
+
+	while(HAL_GetTick() < Timeout){
+		if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_6) == GPIO_PIN_RESET && HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_7) == GPIO_PIN_SET){
+
+			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_SET);
+			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_10, GPIO_PIN_SET);
+
+			return 0;
+		}
+	}
+
+
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_10, GPIO_PIN_SET);
+
+	return 1;
+
+
+
+
+
+}
+
+
+
+
