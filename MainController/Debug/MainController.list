@@ -29,23 +29,23 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
  12 .comment      00000043  00000000  00000000  0002003c  2**0
                   CONTENTS, READONLY
- 13 .debug_info   000130cf  00000000  00000000  0002007f  2**0
+ 13 .debug_info   00013102  00000000  00000000  0002007f  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_abbrev 0000264e  00000000  00000000  0003314e  2**0
+ 14 .debug_abbrev 00002650  00000000  00000000  00033181  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_aranges 000010a0  00000000  00000000  000357a0  2**3
+ 15 .debug_aranges 000010a8  00000000  00000000  000357d8  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_rnglists 00000d09  00000000  00000000  00036840  2**0
+ 16 .debug_rnglists 00000d10  00000000  00000000  00036880  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_macro  000262c2  00000000  00000000  00037549  2**0
+ 17 .debug_macro  000262c2  00000000  00000000  00037590  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_line   00013b39  00000000  00000000  0005d80b  2**0
+ 18 .debug_line   00013b88  00000000  00000000  0005d852  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .debug_str    000fb034  00000000  00000000  00071344  2**0
+ 19 .debug_str    000fb03c  00000000  00000000  000713da  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 20 .debug_frame  00004680  00000000  00000000  0016c378  2**2
+ 20 .debug_frame  000046a4  00000000  00000000  0016c418  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_line_str 00000091  00000000  00000000  001709f8  2**0
+ 21 .debug_line_str 00000091  00000000  00000000  00170abc  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -432,8 +432,9 @@ int main(void)
  8000568:	f002 fcf8 	bl	8002f5c <HAL_TIM_Base_Start>
 
   // TODO: Test retract x axis
-  uint16_t result = retractX();
- 800056c:	f000 fe1e 	bl	80011ac <retractX>
+//  uint16_t result = retractX();
+  uint16_t result = extendX();
+ 800056c:	f000 fe1e 	bl	80011ac <extendX>
  8000570:	4603      	mov	r3, r0
  8000572:	80fb      	strh	r3, [r7, #6]
     /* USER CODE END WHILE */
@@ -2630,13 +2631,13 @@ void EXTI15_10_IRQHandler(void)
  80011a8:	bf00      	nop
  80011aa:	bd80      	pop	{r7, pc}
 
-080011ac <retractX>:
+080011ac <extendX>:
  *
  *
  *
  */
 
-int retractX(){
+int extendX(){
  80011ac:	b580      	push	{r7, lr}
  80011ae:	b082      	sub	sp, #8
  80011b0:	af00      	add	r7, sp, #0
@@ -2652,53 +2653,53 @@ int retractX(){
  80011c0:	4413      	add	r3, r2
  80011c2:	603b      	str	r3, [r7, #0]
 
-	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_RESET);
- 80011c4:	2200      	movs	r2, #0
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_SET);
+ 80011c4:	2201      	movs	r2, #1
  80011c6:	2110      	movs	r1, #16
- 80011c8:	481d      	ldr	r0, [pc, #116]	; (8001240 <retractX+0x94>)
+ 80011c8:	481d      	ldr	r0, [pc, #116]	; (8001240 <extendX+0x94>)
  80011ca:	f000 fe03 	bl	8001dd4 <HAL_GPIO_WritePin>
-	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_10, GPIO_PIN_SET);
- 80011ce:	2201      	movs	r2, #1
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_10, GPIO_PIN_RESET);
+ 80011ce:	2200      	movs	r2, #0
  80011d0:	f44f 6180 	mov.w	r1, #1024	; 0x400
- 80011d4:	481a      	ldr	r0, [pc, #104]	; (8001240 <retractX+0x94>)
+ 80011d4:	481a      	ldr	r0, [pc, #104]	; (8001240 <extendX+0x94>)
  80011d6:	f000 fdfd 	bl	8001dd4 <HAL_GPIO_WritePin>
 
 	while(HAL_GetTick() < Timeout){
- 80011da:	e01b      	b.n	8001214 <retractX+0x68>
-		if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_6) == GPIO_PIN_RESET && HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_7) == GPIO_PIN_SET){
+ 80011da:	e01b      	b.n	8001214 <extendX+0x68>
+		if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_6) == GPIO_PIN_SET && HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_7) == GPIO_PIN_RESET){
  80011dc:	2140      	movs	r1, #64	; 0x40
- 80011de:	4818      	ldr	r0, [pc, #96]	; (8001240 <retractX+0x94>)
+ 80011de:	4818      	ldr	r0, [pc, #96]	; (8001240 <extendX+0x94>)
  80011e0:	f000 fde0 	bl	8001da4 <HAL_GPIO_ReadPin>
  80011e4:	4603      	mov	r3, r0
- 80011e6:	2b00      	cmp	r3, #0
- 80011e8:	d114      	bne.n	8001214 <retractX+0x68>
+ 80011e6:	2b01      	cmp	r3, #1
+ 80011e8:	d114      	bne.n	8001214 <extendX+0x68>
  80011ea:	2180      	movs	r1, #128	; 0x80
  80011ec:	f04f 4090 	mov.w	r0, #1207959552	; 0x48000000
  80011f0:	f000 fdd8 	bl	8001da4 <HAL_GPIO_ReadPin>
  80011f4:	4603      	mov	r3, r0
- 80011f6:	2b01      	cmp	r3, #1
- 80011f8:	d10c      	bne.n	8001214 <retractX+0x68>
+ 80011f6:	2b00      	cmp	r3, #0
+ 80011f8:	d10c      	bne.n	8001214 <extendX+0x68>
 
 			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_SET);
  80011fa:	2201      	movs	r2, #1
  80011fc:	2110      	movs	r1, #16
- 80011fe:	4810      	ldr	r0, [pc, #64]	; (8001240 <retractX+0x94>)
+ 80011fe:	4810      	ldr	r0, [pc, #64]	; (8001240 <extendX+0x94>)
  8001200:	f000 fde8 	bl	8001dd4 <HAL_GPIO_WritePin>
 			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_10, GPIO_PIN_SET);
  8001204:	2201      	movs	r2, #1
  8001206:	f44f 6180 	mov.w	r1, #1024	; 0x400
- 800120a:	480d      	ldr	r0, [pc, #52]	; (8001240 <retractX+0x94>)
+ 800120a:	480d      	ldr	r0, [pc, #52]	; (8001240 <extendX+0x94>)
  800120c:	f000 fde2 	bl	8001dd4 <HAL_GPIO_WritePin>
 
 			return 0;
  8001210:	2300      	movs	r3, #0
- 8001212:	e011      	b.n	8001238 <retractX+0x8c>
+ 8001212:	e011      	b.n	8001238 <extendX+0x8c>
 	while(HAL_GetTick() < Timeout){
  8001214:	f000 f8b6 	bl	8001384 <HAL_GetTick>
  8001218:	4602      	mov	r2, r0
  800121a:	683b      	ldr	r3, [r7, #0]
  800121c:	4293      	cmp	r3, r2
- 800121e:	d8dd      	bhi.n	80011dc <retractX+0x30>
+ 800121e:	d8dd      	bhi.n	80011dc <extendX+0x30>
 		}
 	}
 
@@ -2706,19 +2707,16 @@ int retractX(){
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_SET);
  8001220:	2201      	movs	r2, #1
  8001222:	2110      	movs	r1, #16
- 8001224:	4806      	ldr	r0, [pc, #24]	; (8001240 <retractX+0x94>)
+ 8001224:	4806      	ldr	r0, [pc, #24]	; (8001240 <extendX+0x94>)
  8001226:	f000 fdd5 	bl	8001dd4 <HAL_GPIO_WritePin>
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_10, GPIO_PIN_SET);
  800122a:	2201      	movs	r2, #1
  800122c:	f44f 6180 	mov.w	r1, #1024	; 0x400
- 8001230:	4803      	ldr	r0, [pc, #12]	; (8001240 <retractX+0x94>)
+ 8001230:	4803      	ldr	r0, [pc, #12]	; (8001240 <extendX+0x94>)
  8001232:	f000 fdcf 	bl	8001dd4 <HAL_GPIO_WritePin>
 
 	return 1;
  8001236:	2301      	movs	r3, #1
-
-
-
 
 
 }

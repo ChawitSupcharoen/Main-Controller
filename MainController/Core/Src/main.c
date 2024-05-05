@@ -135,8 +135,8 @@ int main(void)
   HAL_TIM_Base_Start(&htim3);
 
   // TODO: Test retract x axis
-  uint16_t result = retractX();
-
+//  uint16_t result = retractX();
+  uint16_t result = extendX();
 
   /* USER CODE END 2 */
 

@@ -85,7 +85,7 @@ int updateLED(uint8_t* ledVal, TIM_HandleTypeDef* htim, uint32_t timCH){
 
 
 /* 	Function: retractX
- *  Description: Retract x axis until it is fully retract. This function is blocking
+ *  Description: Retract x axis until it is fully retracted or timeout. This function is blocking
  *	Return type : integer
  *		0 : Ok
  *		1 : Timeout
@@ -131,11 +131,59 @@ int retractX(){
 	return 1;
 
 
+}
 
+
+
+
+/* 	Function: extendX
+ *  Description: Extend x axis until it is fully extended or timeout. This function is blocking.
+ *	Return type : integer
+ *		0 : Ok
+ *		1 : Timeout
+ *
+ *	Parameter:
+ *		None
+ *
+ *	Constant:
+ *		TimeoutConst: (Unsigned 32-bit integer) blocking timeout if X axis doesn't extend, use to calculate later.
+ *
+ *	Variable:
+ *		Timeout: (Unsigned 32-bit integer) blocking timeout if X axis doesn't extend.
+ *
+ *
+ *
+ *
+ *
+ */
+
+int extendX(){
+
+	const uint32_t TimeoutConst = 1000;
+
+	uint32_t Timeout = HAL_GetTick() + TimeoutConst;
+
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_10, GPIO_PIN_RESET);
+
+	while(HAL_GetTick() < Timeout){
+		if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_6) == GPIO_PIN_SET && HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_7) == GPIO_PIN_RESET){
+
+			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_SET);
+			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_10, GPIO_PIN_SET);
+
+			return 0;
+		}
+	}
+
+
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_10, GPIO_PIN_SET);
+
+	return 1;
 
 
 }
-
 
 
 

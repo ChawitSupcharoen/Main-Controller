@@ -10,5 +10,6 @@
 
 int updateLED(uint8_t* ledVal, TIM_HandleTypeDef* htim, uint32_t timCH);
 int retractX();
+int extendX();
 
 #endif /* INC_SUBROUTINE_H_ */
