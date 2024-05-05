@@ -8,9 +8,9 @@
 #ifndef INC_SUBROUTINE_H_
 #define INC_SUBROUTINE_H_
 
-int updateLED(uint8_t* ledVal, TIM_HandleTypeDef* htim, uint32_t timCH);
-int retractX();
-int extendX();
-int HomeZ(TIM_HandleTypeDef* Etim);
+uint8_t updateLED(uint8_t* ledVal, TIM_HandleTypeDef* htim, uint32_t timCH);
+uint8_t retractX();
+uint8_t extendX();
+uint8_t HomeZ();
 
 #endif /* INC_SUBROUTINE_H_ */

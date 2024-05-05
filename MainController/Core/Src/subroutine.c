@@ -32,7 +32,7 @@
  *		ledOff: (unsigned 16-bit integer array) Pulse that make respect completely LED off.
  */
 
-int updateLED(uint8_t* ledVal, TIM_HandleTypeDef* htim, uint32_t timCH){
+uint8_t updateLED(uint8_t* ledVal, TIM_HandleTypeDef* htim, uint32_t timCH){
 
 	const uint16_t ledOn[8] = {72,72,72,72,72,72,72,72};
 	const uint16_t ledOff[8] = {34,34,34,34,34,34,34,34};
@@ -105,7 +105,7 @@ int updateLED(uint8_t* ledVal, TIM_HandleTypeDef* htim, uint32_t timCH){
  *
  */
 
-int retractX(){
+uint8_t retractX(){
 
 	const uint32_t TimeoutConst = 1000;
 
@@ -157,7 +157,7 @@ int retractX(){
  *
  */
 
-int extendX(){
+uint8_t extendX(){
 
 	const uint32_t TimeoutConst = 1000;
 
@@ -194,33 +194,37 @@ int extendX(){
  *	Return type : integer
  *		0 : Ok
  *		1 : Timeout
- *		2 : Homing coordinate error
  *
  *	Parameter:
  *
  *	Constant:
  *		TimeoutConst: (Unsigned 32-bit integer) blocking timeout if Z doesn't hit endstop, use to calculate later.
  *		HomingSpeed: (Unsigned 16-bit integer) homing speed in z axis when is going to home
- *		HomingMaxError: (Unsigned 16-bit integer) max variation in homing position in encoder pulse
  *
  *	Variable:
  *		Timeout: (Unsigned 32-bit integer) blocking timeout if Z axis doesn't hit endstop.
- *		HomePos:
  *
  *
  */
 
-int HomeZ(){
+uint8_t HomeZ(){
 
 	const uint32_t TimeoutConst = 20000;
+	const uint32_t HomingSpeed = 20000;
 
 	uint32_t Timeout = HAL_GetTick() + TimeoutConst;
-	uint32_t HomePos[3];
 
-	serviceMotor(20000, 0);
+	serviceMotor(HomingSpeed, 0);
+
 	while(HAL_GetTick() < Timeout){
-		return 0;
+		if(getZStop() == 1){
+			serviceMotor(0, 0);
+			return 0;
+		}
+
 	}
+
+	serviceMotor(0, 0);
 	return 1;
 
 }

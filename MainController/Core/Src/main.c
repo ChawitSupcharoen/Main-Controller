@@ -60,6 +60,9 @@ uint32_t qeiRaw = 0;
 // @User: Base system receiving buffer
 
 
+// @User: Motor's parameter
+volatile uint8_t zStop = 0;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -134,10 +137,10 @@ int main(void)
   // @User: Setup Timer 3 for sending led data
   HAL_TIM_Base_Start(&htim3);
 
-  // TODO: Test retract x axis
+  // TODO: Test subroutine
 //  uint16_t result = retractX();
 //  uint16_t result = extendX();
-  serviceMotor(20000, 0);
+  uint8_t result = HomeZ();
 
   /* USER CODE END 2 */
 
@@ -616,6 +619,7 @@ static void MX_GPIO_Init(void)
 
 void serviceMotor(uint32_t pwm, uint8_t dir){
 
+	zStop = 0;
 	if(dir){
 		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, pwm);
 		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 0);
@@ -643,11 +647,45 @@ uint32_t getEncoderValue(){
 	return __HAL_TIM_GET_COUNTER(&htim2);
 }
 
-// @User : If gripper hit endstop, Stop motor
+
+/* 	@User : Zero encoder value
+ *
+ * 	Function: zeroEncoderValue
+ * 	Description: Low level API to reset encoder's qei counter to 10,000 (this is for overhead)
+ *	Return type : void
+ *
+ *	Parameter:
+ *		void
+ *
+ */
+
+
+void zeroEncoderValue(){
+	__HAL_TIM_SET_COUNTER(&htim2, 10000);
+}
+
+/* 	@User : Get zStop
+ *
+ * 	Function: getZStop
+ * 	Description: Low level API to get ZStop flag
+ *	Return type : uint8_t
+ *
+ *	Parameter:
+ *		void
+ *
+ */
+
+
+uint8_t getZStop(){
+	return zStop;
+}
+
+// @User : Stop motor when hit the end stop
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
 	if(GPIO_Pin == GPIO_PIN_5 || GPIO_Pin == GPIO_PIN_10){
 		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 0);
 		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 0);
+		zStop = 1;
 	}
 }
 

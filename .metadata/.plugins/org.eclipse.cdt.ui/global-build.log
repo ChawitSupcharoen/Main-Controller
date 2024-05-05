@@ -1,43 +1,96 @@
-22:05:53 **** Incremental Build of configuration Debug for project MainController ****
+22:59:03 **** Incremental Build of configuration Debug for project MainController ****
 make -j20 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32G474xx -c -I../Core/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc "../Core/Src/subroutine.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32G474xx -c -I../Core/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/subroutine.d" -MT"Core/Src/subroutine.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/subroutine.o"
+../Core/Src/subroutine.c: In function 'updateLED':
+../Core/Src/subroutine.c:82:51: warning: passing argument 3 of 'HAL_TIM_PWM_Start_DMA' from incompatible pointer type [-Wincompatible-pointer-types]
+   82 |         return HAL_TIM_PWM_Start_DMA(htim, timCH, ledPayload, 132);
+      |                                                   ^~~~~~~~~~
+      |                                                   |
+      |                                                   uint16_t * {aka short unsigned int *}
+In file included from ../Core/Inc/stm32g4xx_hal_conf.h:344,
+                 from ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/subroutine.c:10:
+../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_tim.h:2402:100: note: expected 'const uint32_t *' {aka 'const long unsigned int *'} but argument is of type 'uint16_t *' {aka 'short unsigned int *'}
+ 2402 | HAL_StatusTypeDef HAL_TIM_PWM_Start_DMA(TIM_HandleTypeDef *htim, uint32_t Channel, const uint32_t *pData,
+      |                                                                                    ~~~~~~~~~~~~~~~~^~~~~
 arm-none-eabi-gcc -o "MainController.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\asus\Documents\FIBO\FIBO Year 2 Simester 2\Studio\Firmware\Main Controller\MainController\STM32G474RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="MainController.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: MainController.elf
  
 arm-none-eabi-size   MainController.elf 
 arm-none-eabi-objdump -h -S  MainController.elf  > "MainController.list"
    text	   data	    bss	    dec	    hex	filename
-  22988	     20	   2396	  25404	   633c	MainController.elf
+  23100	     20	   2404	  25524	   63b4	MainController.elf
 Finished building: default.size.stdout
  
 Finished building: MainController.list
  
-22:08:23 **** Incremental Build of configuration Debug for project MainController ****
+22:59:17 **** Incremental Build of configuration Debug for project MainController ****
 make -j20 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32G474xx -c -I../Core/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-size   MainController.elf 
+   text	   data	    bss	    dec	    hex	filename
+  23100	     20	   2404	  25524	   63b4	MainController.elf
+Finished building: default.size.stdout
+ 
+23:03:24 **** Incremental Build of configuration Debug for project MainController ****
+make -j20 all 
+arm-none-eabi-gcc "../Core/Src/subroutine.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32G474xx -c -I../Core/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/subroutine.d" -MT"Core/Src/subroutine.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/subroutine.o"
+../Core/Src/subroutine.c: In function 'updateLED':
+../Core/Src/subroutine.c:82:51: warning: passing argument 3 of 'HAL_TIM_PWM_Start_DMA' from incompatible pointer type [-Wincompatible-pointer-types]
+   82 |         return HAL_TIM_PWM_Start_DMA(htim, timCH, ledPayload, 132);
+      |                                                   ^~~~~~~~~~
+      |                                                   |
+      |                                                   uint16_t * {aka short unsigned int *}
+In file included from ../Core/Inc/stm32g4xx_hal_conf.h:344,
+                 from ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/subroutine.c:10:
+../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_tim.h:2402:100: note: expected 'const uint32_t *' {aka 'const long unsigned int *'} but argument is of type 'uint16_t *' {aka 'short unsigned int *'}
+ 2402 | HAL_StatusTypeDef HAL_TIM_PWM_Start_DMA(TIM_HandleTypeDef *htim, uint32_t Channel, const uint32_t *pData,
+      |                                                                                    ~~~~~~~~~~~~~~~~^~~~~
 arm-none-eabi-gcc -o "MainController.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\asus\Documents\FIBO\FIBO Year 2 Simester 2\Studio\Firmware\Main Controller\MainController\STM32G474RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="MainController.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: MainController.elf
  
 arm-none-eabi-size   MainController.elf 
 arm-none-eabi-objdump -h -S  MainController.elf  > "MainController.list"
    text	   data	    bss	    dec	    hex	filename
-  22928	     20	   2396	  25344	   6300	MainController.elf
+  23100	     20	   2404	  25524	   63b4	MainController.elf
 Finished building: default.size.stdout
  
 Finished building: MainController.list
  
-22:20:11 **** Incremental Build of configuration Debug for project MainController ****
+23:03:58 **** Incremental Build of configuration Debug for project MainController ****
 make -j20 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32G474xx -c -I../Core/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-arm-none-eabi-gcc "../Core/Src/stm32g4xx_it.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32G474xx -c -I../Core/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/stm32g4xx_it.d" -MT"Core/Src/stm32g4xx_it.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/stm32g4xx_it.o"
-arm-none-eabi-gcc -o "MainController.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\asus\Documents\FIBO\FIBO Year 2 Simester 2\Studio\Firmware\Main Controller\MainController\STM32G474RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="MainController.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: MainController.elf
- 
 arm-none-eabi-size   MainController.elf 
-arm-none-eabi-objdump -h -S  MainController.elf  > "MainController.list"
    text	   data	    bss	    dec	    hex	filename
-  22960	     20	   2396	  25376	   6320	MainController.elf
+  23100	     20	   2404	  25524	   63b4	MainController.elf
 Finished building: default.size.stdout
  
-Finished building: MainController.list
+23:04:15 **** Incremental Build of configuration Debug for project MainController ****
+make -j20 all 
+arm-none-eabi-size   MainController.elf 
+   text	   data	    bss	    dec	    hex	filename
+  23100	     20	   2404	  25524	   63b4	MainController.elf
+Finished building: default.size.stdout
+ 
+23:04:30 **** Incremental Build of configuration Debug for project MainController ****
+make -j20 all 
+arm-none-eabi-size   MainController.elf 
+   text	   data	    bss	    dec	    hex	filename
+  23100	     20	   2404	  25524	   63b4	MainController.elf
+Finished building: default.size.stdout
+ 
+23:04:43 **** Incremental Build of configuration Debug for project MainController ****
+make -j20 all 
+arm-none-eabi-size   MainController.elf 
+   text	   data	    bss	    dec	    hex	filename
+  23100	     20	   2404	  25524	   63b4	MainController.elf
+Finished building: default.size.stdout
+ 
+23:04:57 **** Incremental Build of configuration Debug for project MainController ****
+make -j20 all 
+arm-none-eabi-size   MainController.elf 
+   text	   data	    bss	    dec	    hex	filename
+  23100	     20	   2404	  25524	   63b4	MainController.elf
+Finished building: default.size.stdout
  
